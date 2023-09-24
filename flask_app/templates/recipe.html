@@ -1,0 +1,43 @@
+{%extends 'base.html' %} {%block title %}
+<title>Home page</title>
+{%endblock%} {%block content%}
+<h1>Welcome, {{user.first_name}}</h1>
+<div class="d-flex bd-highlight">
+  <div class="p-2 flex-grow-1 bd-highlight">All posted recipes:</div>
+  <div class="p-2 bd-highlight">
+    <a href="{{url_for('new_recipe')}}"> <i class="fa-solid fa-plus"></i>Create</a>
+  </div>
+  <div class="p-2 bd-highlight">
+    <a href="{{url_for('logout')}}">Logout</a>
+  </div>
+</div>
+<table class="table text-center">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Under30</th>
+      <th scope="col">Posted by</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for recipe in all_recipes%}
+    <tr>
+      <td>{{recipe.name}}</td>
+      {% if recipe.can_be_cooked_in_30mins == 1%}
+      <td>Yes</td>
+      {% else %}
+      <td>No</td>
+      {%endif%}
+      <td>{{recipe.user.first_name}}</td>
+      <td>
+        <a href="/recipes/details/{{recipe.id}}">view recipe</a> | <a href="/recipes/edit/{{recipe.id}}">edit</a> |
+        <a href="/recipes/destroy/{{recipe.id}}">delete</a>
+      </td>
+    </tr>
+
+    {%endfor%}
+    
+  </tbody>
+</table>
+{%endblock%}
